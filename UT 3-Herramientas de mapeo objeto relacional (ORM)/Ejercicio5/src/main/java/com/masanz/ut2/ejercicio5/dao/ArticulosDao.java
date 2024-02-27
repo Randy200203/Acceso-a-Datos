@@ -2,55 +2,103 @@ package com.masanz.ut2.ejercicio5.dao;
 
 import com.masanz.ut2.ejercicio5.database.DatabaseManager;
 import com.masanz.ut2.ejercicio5.dto.Articulo;
+import com.masanz.ut2.ejercicio5.dto.ArticulosDTO;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArticulosDao {
+    private EntityManagerFactory emf;
 
-    public ArticulosDao(){
-
+    public ArticulosDao(EntityManagerFactory emf) {
+        this.emf = emf;
     }
 
-    public Articulo crearArticulo(Articulo articulo){
-        return crearArticulo(articulo.getId(), articulo.getNombre(), articulo.getValor(), articulo.getIdPropietario());
+
+
+    public ArticulosDTO crearArticulo(String id, String nombre, int valor, int propietario){
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        // HACER EL NEW DE NUESTRO OBJETO
+        // MyEntity miEntity = new MyEntity();
+        ArticulosDTO articulosDTO = new ArticulosDTO();
+        articulosDTO.setNombre(nombre);
+        articulosDTO.setValor(valor);
+        articulosDTO.setIdPropietario(propietario);
+        System.out.println(articulosDTO);
+        em.persist(articulosDTO);
+        System.out.println(articulosDTO);
+        em.getTransaction().commit();
+        emf.close();
+        return articulosDTO;
     }
 
-    public Articulo crearArticulo(int id, String nombre, int valor, int idPropietario){
-        Articulo articulo = new Articulo(id, nombre, valor, idPropietario);
-        String sql = "INSERT INTO articulos (id, nombre, valor, id_propietario) VALUES (?, ?, ?, ?)";
-        Object[] params = {id, nombre, valor, idPropietario};
-        int registrosIncluidos = DatabaseManager.ejecutarUpdateSQL(sql, params);
-        if(registrosIncluidos>0){
-            return articulo;
+//    public Articulo crearArticulo(int id, String nombre, int valor, int idPropietario){
+//        Articulo articulo = new Articulo(id, nombre, valor, idPropietario);
+//        String sql = "INSERT INTO articulos (id, nombre, valor, id_propietario) VALUES (?, ?, ?, ?)";
+//        Object[] params = {id, nombre, valor, idPropietario};
+//        int registrosIncluidos = DatabaseManager.ejecutarUpdateSQL(sql, params);
+//        if(registrosIncluidos>0){
+//            return articulo;
+//        }
+//        return null;
+//    }
+
+    public boolean borrarArticulo(ArticulosDTO articulo){
+
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        ArticulosDTO articulosDTO = em.find(ArticulosDTO.class, articulo.getId());
+        if (articulosDTO != null){
+            em.remove(articulosDTO);
+            em.getTransaction().commit();
+            return true;
+        }else{
+            return false;
         }
-        return null;
+
+
+
+        //        boolean borradoExitoso = false;
+//        String sql = "DELETE FROM articulos WHERE id = ?";
+//        Object[] params = { articulo.getId() };
+//        int registrosEliminados = DatabaseManager.ejecutarUpdateSQL(sql, params);
+//        if (registrosEliminados > 0) {
+//            borradoExitoso = true;
+//        }
+//        return borradoExitoso;
+//
+
     }
 
-    public boolean borrarArticulo(Articulo articulo){
-        boolean borradoExitoso = false;
-        String sql = "DELETE FROM articulos WHERE id = ?";
-        Object[] params = { articulo.getId() };
-        int registrosEliminados = DatabaseManager.ejecutarUpdateSQL(sql, params);
-        if (registrosEliminados > 0) {
-            borradoExitoso = true;
-        }
-        return borradoExitoso;
-    }
-
-    public Articulo actualizarArticulo(Articulo articulo){
+    public ArticulosDTO actualizarArticulo(ArticulosDTO articulo){
         return actualizarArticulo(articulo.getId(), articulo.getNombre(), articulo.getValor(), articulo.getIdPropietario());
     }
 
-    private Articulo actualizarArticulo(int id, String nombre, int valor, int idPropietario) {
-        String sql = "UPDATE articulos SET nombre = ?, valor = ?, id_propietario = ? WHERE id = ?";
-        Object[] params = {nombre, valor, idPropietario, id};
-        int registrosActualizados = DatabaseManager.ejecutarUpdateSQL(sql, params);
-        if (registrosActualizados > 0) {
-            Articulo articulo = new Articulo(id, nombre, valor, idPropietario);
-            return articulo;
-        }
-        return null;
+    private ArticulosDTO actualizarArticulo(int id, String nombre, int valor, int idPropietario) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        ArticulosDTO articulosDTO = em.find(ArticulosDTO.class, id);
+        articulosDTO.setNombre(nombre);
+        articulosDTO.setValor(valor);
+        articulosDTO.setIdPropietario(idPropietario);
+
+        em.merge(articulosDTO);
+        em.getTransaction().commit();
+        return articulosDTO;
+
+        //String sql = "UPDATE articulos SET nombre = ?, valor = ?, id_propietario = ? WHERE id = ?";
+//        Object[] params = {nombre, valor, idPropietario, id};
+//        int registrosActualizados = DatabaseManager.ejecutarUpdateSQL(sql, params);
+//        if (registrosActualizados > 0) {
+//            Articulo articulo = new Articulo(id, nombre, valor, idPropietario);
+//            return articulo;
+//        }
+//        return null;
+
     }
 
     public List<Articulo> obtenerArticulos(){
