@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class UsuarioDAO {
 
@@ -58,25 +59,28 @@ public class UsuarioDAO {
        return true;
     }
 
-    public UsuariosDTO actualizarUsuario(Usuario usuario, String fullName, String user, String email, String password){
+    public UsuariosDTO actualizarUsuario(UsuariosDTO usuario, String fullName, String user, String email, String password){
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        try {
+
             UsuariosDTO actualizarUser = em.find(UsuariosDTO.class, usuario.getId());
             actualizarUser.setFullName(fullName);
             actualizarUser.setUser(user);
             actualizarUser.setEmail(email);
             actualizarUser.setPassword(password);
             em.merge(actualizarUser);
-        } catch (Exception e) {
-            System.out.println("ERROR" + e);
+            System.out.println("CORRECTO");
+            em.getTransaction().commit();
             em.close();
-            return false;
-        }
-        System.out.println("CORRECTO");
+            return actualizarUser;
+    }
+
+    public List<UsuariosDTO> obtenerUsuarios(){
+        EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT u FROM UsuariosDTO u";
+        List<UsuariosDTO> usuariosDTOS = em.createQuery(jpql,UsuariosDTO.class).getResultList();
         em.close();
-        em.getTransaction().commit();
-        return true;
+        return usuariosDTOS;
     }
 
 

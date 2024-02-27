@@ -12,9 +12,13 @@ public class Main {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("nombreUnidadPersistencia");
 
-        UsuarioDAO usuarioDAO = new UsuarioDAO(emf);
-        UsuariosDTO usuario = usuarioDAO.crearUsuario("Randy02", "cj", "rachana@gmail.com", "rachana");
-        usuarioDAO.borrarUsuario(usuario);
+        UsuarioDAO usuariosDAO = new UsuarioDAO(emf);
+        UsuariosDTO usuario = usuariosDAO.crearUsuario("Randy02", "cj", "rachana@gmail.com", "rachana");
+        usuariosDAO.actualizarUsuario(usuario, "Achana", "aaa", "aaa@gmail.com", "aaaa");
+        List<UsuariosDTO> usuarios = usuariosDAO.obtenerUsuarios();
+        for (UsuariosDTO usuariosDTO: usuarios){
+            System.out.println(usuariosDTO);
+        }
 
 
     }
