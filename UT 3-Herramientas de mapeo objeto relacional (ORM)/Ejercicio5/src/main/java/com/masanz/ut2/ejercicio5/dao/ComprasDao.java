@@ -1,39 +1,62 @@
 package com.masanz.ut2.ejercicio5.dao;
 
 import com.masanz.ut2.ejercicio5.database.DatabaseManager;
+import com.masanz.ut2.ejercicio5.dto.ArticulosDTO;
 import com.masanz.ut2.ejercicio5.dto.Compras;
+import com.masanz.ut2.ejercicio5.dto.ComprasDTO;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ComprasDao {
+    private EntityManagerFactory emf;
 
-    public ComprasDao(){
-
+    public ComprasDao(EntityManagerFactory emf) {
+        this.emf = emf;
     }
 
-    public Compras crearCompras(Compras compras){
+    public ComprasDTO crearCompras(ComprasDTO compras){
         return crearCompras(compras.getIdArticulo(), compras.getIdComprador(), compras.getIdVendedor(), compras.getFechaComprar());
     }
 
-    public Compras crearCompras(int idArticulo, int idComprador, int idVendedor, Date fechaComprar){
-        Compras compras = new Compras(idArticulo, idComprador, idVendedor);
-        String sql = "INSERT INTO compras (id_objeto, id_comprador, id_vendedor,  fecha_compra) VALUES (?, ?, ?, ?)";
-        Object[] params = {idArticulo, idComprador, idVendedor, fechaComprar};
-        int registrosIncluidos = DatabaseManager.ejecutarUpdateSQL(sql, params);
-        if(registrosIncluidos>0){
-            return compras;
-        }
-        return null;
+    public ComprasDTO crearCompras(int idArticulo, int idComprador, int idVendedor, Date fechaComprar){
+//        Compras compras = new Compras(idArticulo, idComprador, idVendedor);
+//        String sql = "INSERT INTO compras (id_objeto, id_comprador, id_vendedor,  fecha_compra) VALUES (?, ?, ?, ?)";
+//        Object[] params = {idArticulo, idComprador, idVendedor, fechaComprar};
+//        int registrosIncluidos = DatabaseManager.ejecutarUpdateSQL(sql, params);
+//        if(registrosIncluidos>0){
+//            return compras;
+//        }
+//        return null;
+
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        ComprasDTO comprasDTO = new ComprasDTO();
+        comprasDTO.setIdObjeto(idArticulo);
+        comprasDTO.setIdComprador(idComprador);
+        comprasDTO.setIdVendedor(idVendedor);
+        comprasDTO.setFechaCompra(fechaComprar.getTime());
+        em.persist(comprasDTO);
+        em.getTransaction().commit();
+        emf.close();
+        return comprasDTO;
     }
 
-    public List<Compras> obtenerCompras(){
-        String sql = "SELECT * FROM compras";
-        Object[] params = null;
-        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
-        List<Compras> compras = procesarResultado(resultado);
-        return compras;
+    public List<ComprasDTO> obtenerCompras(){
+//        String sql = "SELECT * FROM compras";
+//        Object[] params = null;
+//        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
+//        List<Compras> compras = procesarResultado(resultado);
+//        return compras;
+
+        EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT u FROM ComprasDTO u";
+        List<ComprasDTO> comprasDTOS = em.createQuery(jpql,ComprasDTO.class).getResultList();
+        em.close();
+        return comprasDTOS;
     }
 
     private List<Compras> procesarResultado(Object[][] resultado){

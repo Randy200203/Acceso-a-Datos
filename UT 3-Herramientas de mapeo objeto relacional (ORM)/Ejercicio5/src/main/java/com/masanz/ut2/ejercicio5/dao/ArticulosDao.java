@@ -22,15 +22,11 @@ public class ArticulosDao {
     public ArticulosDTO crearArticulo(String id, String nombre, int valor, int propietario){
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        // HACER EL NEW DE NUESTRO OBJETO
-        // MyEntity miEntity = new MyEntity();
         ArticulosDTO articulosDTO = new ArticulosDTO();
         articulosDTO.setNombre(nombre);
         articulosDTO.setValor(valor);
         articulosDTO.setIdPropietario(propietario);
-        System.out.println(articulosDTO);
         em.persist(articulosDTO);
-        System.out.println(articulosDTO);
         em.getTransaction().commit();
         emf.close();
         return articulosDTO;
@@ -51,15 +47,18 @@ public class ArticulosDao {
 
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        ArticulosDTO articulosDTO = em.find(ArticulosDTO.class, articulo.getId());
-        if (articulosDTO != null){
-            em.remove(articulosDTO);
-            em.getTransaction().commit();
-            return true;
-        }else{
+        try {
+            ArticulosDTO borrarUser = em.find(ArticulosDTO.class, articulo.getId());
+            em.remove(borrarUser);
+        } catch (Exception e) {
+            System.out.println("ERROR" + e);
+            em.close();
             return false;
         }
-
+        System.out.println("CORRECTO");
+        em.close();
+        em.getTransaction().commit();
+        return true;
 
 
         //        boolean borradoExitoso = false;
@@ -79,16 +78,19 @@ public class ArticulosDao {
     }
 
     private ArticulosDTO actualizarArticulo(int id, String nombre, int valor, int idPropietario) {
+
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        ArticulosDTO articulosDTO = em.find(ArticulosDTO.class, id);
-        articulosDTO.setNombre(nombre);
-        articulosDTO.setValor(valor);
-        articulosDTO.setIdPropietario(idPropietario);
 
-        em.merge(articulosDTO);
+        ArticulosDTO actualizarUser = em.find(ArticulosDTO.class, id);
+        actualizarUser.setNombre(nombre);
+        actualizarUser.setValor(valor);
+        actualizarUser.setIdPropietario(idPropietario);
+        em.merge(actualizarUser);
+        System.out.println("CORRECTO");
         em.getTransaction().commit();
-        return articulosDTO;
+        em.close();
+        return actualizarUser;
 
         //String sql = "UPDATE articulos SET nombre = ?, valor = ?, id_propietario = ? WHERE id = ?";
 //        Object[] params = {nombre, valor, idPropietario, id};
@@ -101,31 +103,55 @@ public class ArticulosDao {
 
     }
 
-    public List<Articulo> obtenerArticulos(){
-        String sql = "SELECT * FROM articulos";
-        Object[] params = null;
-        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
-        List<Articulo> articulos = procesarResultado(resultado);
-        return articulos;
+    public List<ArticulosDTO> obtenerArticulos(){
+        EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT u FROM ArticulosDTO u";
+        List<ArticulosDTO> articulosDTOS = em.createQuery(jpql,ArticulosDTO.class).getResultList();
+        em.close();
+        return articulosDTOS;
     }
 
-    public Articulo obtenerArticulo(int articuloId){
-        String sql = "SELECT * FROM articulos WHERE id = ?";
-        Object[] params = {articuloId};
-        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
-        List<Articulo> articulos = procesarResultado(resultado);
-        if(articulos!=null && articulos.size()>0){
-            return articulos.get(0);
+    public ArticulosDTO obtenerArticulo(ArticulosDTO articuloId) {
+//
+//        String sql = "SELECT * FROM articulos WHERE id = ?";
+//        Object[] params = {articuloId};
+//        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
+//        List<Articulo> articulos = procesarResultado(resultado);
+//        if(articulos!=null && articulos.size()>0){
+//            return articulos.get(0);
+//        }
+//        return null;
+        EntityManager em = emf.createEntityManager();
+        ArticulosDTO articulosDTO = null;
+        try {
+            articulosDTO = em.find(ArticulosDTO.class, articuloId.getId());
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e);
+            em.close();
         }
-        return null;
+        return articulosDTO;
     }
 
-    public List<Articulo> obtenerArticulosPropietario(int idPropietario){
-        String sql = "SELECT * FROM articulos WHERE id_propietario = ?";
-        Object[] params = {idPropietario};
-        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
-        List<Articulo> articulos = procesarResultado(resultado);
-        return articulos;
+    public List<ArticulosDTO> obtenerArticulosPropietario(ArticulosDTO idPropietario){
+//        String sql = "SELECT * FROM articulos WHERE id_propietario = ?";
+//        Object[] params = {idPropietario};
+//        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
+//        List<Articulo> articulos = procesarResultado(resultado);
+//        return articulos;
+
+        EntityManager em = emf.createEntityManager();
+        List<ArticulosDTO> articulosDTO = null;
+        try {
+            String jpql = "SELECT a FROM ArticulosDTO a WHERE a.idPropietario = :idPropietario";
+            articulosDTO = em.createQuery(jpql, ArticulosDTO.class)
+                    .setParameter("idPropietario", idPropietario.getIdPropietario())
+                    .getResultList();
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e);
+            em.close();
+        }
+        return articulosDTO;
+    }
     }
 
     private List<Articulo> procesarResultado(Object[][] resultado){
