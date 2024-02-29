@@ -2,7 +2,6 @@ package com.masanz.ut2.ejercicio5.dao;
 
 import com.masanz.ut2.ejercicio5.database.DatabaseManager;
 import com.masanz.ut2.ejercicio5.dto.ArticulosDTO;
-import com.masanz.ut2.ejercicio5.dto.Compras;
 import com.masanz.ut2.ejercicio5.dto.ComprasDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -19,7 +18,7 @@ public class ComprasDao {
     }
 
     public ComprasDTO crearCompras(ComprasDTO compras){
-        return crearCompras(compras.getIdArticulo(), compras.getIdComprador(), compras.getIdVendedor(), compras.getFechaComprar());
+        return crearCompras(compras.getIdObjeto(), compras.getIdComprador(), compras.getIdVendedor(), compras.getFechaCompra());
     }
 
     public ComprasDTO crearCompras(int idArticulo, int idComprador, int idVendedor, Date fechaComprar){
@@ -38,7 +37,7 @@ public class ComprasDao {
         comprasDTO.setIdObjeto(idArticulo);
         comprasDTO.setIdComprador(idComprador);
         comprasDTO.setIdVendedor(idVendedor);
-        comprasDTO.setFechaCompra(fechaComprar.getTime());
+        comprasDTO.setFechaCompra( new java.sql.Date(fechaComprar.getTime()));
         em.persist(comprasDTO);
         em.getTransaction().commit();
         emf.close();
@@ -59,23 +58,23 @@ public class ComprasDao {
         return comprasDTOS;
     }
 
-    private List<Compras> procesarResultado(Object[][] resultado){
-        List<Compras> compras = null;
-        if (resultado != null) {
-            compras = new ArrayList<>();
-            for (Object[] fila : resultado) {
-                Compras compra = new Compras();
-                compra.setId((Integer) fila[0]);
-                compra.setIdArticulo((Integer) fila[1]);
-                compra.setIdComprador((Integer) fila[2]);
-                compra.setIdVendedor((Integer) fila[3]);
-                compra.setFechaComprar((Date) fila[4]);
-                compras.add(compra);
-            }
-        } else {
-            System.out.println("El resultado es nulo.");
-        }
-        return compras;
-    }
+//    private List<ComprasDTO> procesarResultado(Object[][] resultado){
+//        List<Compras> compras = null;
+//        if (resultado != null) {
+//            compras = new ArrayList<>();
+//            for (Object[] fila : resultado) {
+//                Compras compra = new Compras();
+//                compra.setId((Integer) fila[0]);
+//                compra.setIdArticulo((Integer) fila[1]);
+//                compra.setIdComprador((Integer) fila[2]);
+//                compra.setIdVendedor((Integer) fila[3]);
+//                compra.setFechaComprar((Date) fila[4]);
+//                compras.add(compra);
+//            }
+//        } else {
+//            System.out.println("El resultado es nulo.");
+//        }
+//        return compras;
+//    }
 
 }

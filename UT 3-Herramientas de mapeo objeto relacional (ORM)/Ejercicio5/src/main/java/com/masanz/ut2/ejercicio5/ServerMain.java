@@ -4,10 +4,13 @@ import com.masanz.ut2.ejercicio5.dao.ArticulosDao;
 import com.masanz.ut2.ejercicio5.dao.ComprasDao;
 import com.masanz.ut2.ejercicio5.dao.UsuariosDao;
 import com.masanz.ut2.ejercicio5.database.DatabaseManager;
-import com.masanz.ut2.ejercicio5.dto.Articulo;
-import com.masanz.ut2.ejercicio5.dto.Compras;
-import com.masanz.ut2.ejercicio5.dto.Usuario;
+import com.masanz.ut2.ejercicio5.dto.ArticulosDTO;
+import com.masanz.ut2.ejercicio5.dto.ComprasDTO;
+import com.masanz.ut2.ejercicio5.dto.UsuariosDTO;
 import freemarker.template.Configuration;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.ModelAndView;
@@ -24,6 +27,8 @@ public class ServerMain {
 
     private static final Logger logger = LogManager.getLogger(ServerMain.class);
     private static int loggedUserId = -1;
+    private EntityManagerFactory emf;
+
 
     public static void main(String[] args) {
 
@@ -33,16 +38,19 @@ public class ServerMain {
 
         staticFileLocation("/public");
         port(8080);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistenceUnit");
+
+
 
         FreeMarkerEngine freeMarker = new FreeMarkerEngine();
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_0);
         configuration.setClassForTemplateLoading(ServerMain.class, "/templates");
         freeMarker.setConfiguration(configuration);
 
-        DatabaseManager.conectar("acda", "root", "root");
-        UsuariosDao usuariosDao = new UsuariosDao();
-        ArticulosDao articulosDao = new ArticulosDao();
-        ComprasDao comprasDao = new ComprasDao();
+//        DatabaseManager.conectar("acda", "root", "root");
+        UsuariosDao usuariosDao = new UsuariosDao(emf);
+        ArticulosDao articulosDao = new ArticulosDao(emf);
+        ComprasDao comprasDao = new ComprasDao(emf);
 
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
@@ -60,7 +68,7 @@ public class ServerMain {
             String username = request.queryParams("username");
             String password = request.queryParams("password");
 
-            Usuario usuario = usuariosDao.autenticar(username, password);
+            UsuariosDTO usuario = usuariosDao.autenticar(username, password);
 
             if (usuario!=null) {
                 loggedUserId = usuario.getId();
@@ -78,7 +86,7 @@ public class ServerMain {
         }, freeMarker);
 
         get("/articulos", (request, response) -> {
-            List<Articulo> articulos = articulosDao.obtenerArticulosPropietario(loggedUserId);
+            List<ArticulosDTO> articulos = articulosDao.obtenerArticulosPropietario(loggedUserId);
             Map<String, Object> model = new HashMap<>();
             model.put("mostrarIdExtra", false);
             model.put("articulos", articulos);
@@ -87,7 +95,7 @@ public class ServerMain {
 
         get("/articulos/:id", (request, response) -> {
             int userId = Integer.parseInt(request.params(":id"));
-            List<Articulo> articulos = articulosDao.obtenerArticulosPropietario(userId);
+            List<ArticulosDTO> articulos = articulosDao.obtenerArticulosPropietario(userId);
             Map<String, Object> model = new HashMap<>();
             model.put("mostrarIdExtra", true);
             model.put("articulos", articulos);
@@ -96,7 +104,7 @@ public class ServerMain {
 
         get("/usuarios", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
-            List<Usuario> usuarios = usuariosDao.obtenerUsuarios();
+            List<UsuariosDTO> usuarios = usuariosDao.obtenerUsuarios();
             model.put("usuarios", usuarios);
             return new ModelAndView(model, "usuarios.ftl");
         }, freeMarker);
@@ -104,7 +112,7 @@ public class ServerMain {
         get("/usuario/:id", (request, response) -> {
             int userId = Integer.parseInt(request.params(":id"));
             logger.info("BUSCANDO INFORMACION DEL USUARIO CON ID: "+userId);
-            Usuario usuario = usuariosDao.obtenerUsuario(userId, null);
+            UsuariosDTO usuario = usuariosDao.obtenerUsuario(userId, null);
             Map<String, Object> model = new HashMap<>();
             model.put("usuario", usuario);
             return new ModelAndView(model, "usuario.ftl");
@@ -113,10 +121,10 @@ public class ServerMain {
         get("/comprar/:id", (request, response) -> {
             int articuloId = Integer.parseInt(request.params(":id"));
             logger.info("COMPRANDO ARTICULO ID: "+articuloId);
-            Articulo articulo = articulosDao.obtenerArticulo(articuloId);
+            ArticulosDTO articulo = articulosDao.obtenerArticulo(articuloId);
             int valorArticulo = articulo.getValor();
-            Usuario usuarioComprador = usuariosDao.obtenerUsuario(loggedUserId, null);
-            Usuario usuarioVendedor = usuariosDao.obtenerUsuario(articulo.getIdPropietario(), null);
+            UsuariosDTO usuarioComprador = usuariosDao.obtenerUsuario(loggedUserId, null);
+            UsuariosDTO usuarioVendedor = usuariosDao.obtenerUsuario(articulo.getIdPropietario(), null);
             if(usuarioComprador.getSaldo()>=valorArticulo && usuarioComprador.getId()!=usuarioVendedor.getId()){
                 usuarioComprador.setSaldo(usuarioComprador.getSaldo() - valorArticulo);
                 usuarioVendedor.setSaldo(usuarioVendedor.getSaldo() + valorArticulo);
@@ -130,8 +138,8 @@ public class ServerMain {
                 } else {
                     DatabaseManager.deshacer();
                 }
-                List<Compras> compras = comprasDao.obtenerCompras();
-                for (Compras compra : compras) {
+                List<ComprasDTO> compras = comprasDao.obtenerCompras();
+                for (ComprasDTO compra : compras) {
                     System.out.println(compra);
                 }
             }

@@ -1,7 +1,6 @@
 package com.masanz.ut2.ejercicio5.dao;
 
 import com.masanz.ut2.ejercicio5.database.DatabaseManager;
-import com.masanz.ut2.ejercicio5.dto.Articulo;
 import com.masanz.ut2.ejercicio5.dto.ArticulosDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -111,7 +110,7 @@ public class ArticulosDao {
         return articulosDTOS;
     }
 
-    public ArticulosDTO obtenerArticulo(ArticulosDTO articuloId) {
+    public ArticulosDTO obtenerArticulo(int articuloId) {
 //
 //        String sql = "SELECT * FROM articulos WHERE id = ?";
 //        Object[] params = {articuloId};
@@ -124,7 +123,7 @@ public class ArticulosDao {
         EntityManager em = emf.createEntityManager();
         ArticulosDTO articulosDTO = null;
         try {
-            articulosDTO = em.find(ArticulosDTO.class, articuloId.getId());
+            articulosDTO = em.find(ArticulosDTO.class, articuloId);
         } catch (Exception e) {
             System.out.println("ERROR: " + e);
             em.close();
@@ -132,7 +131,7 @@ public class ArticulosDao {
         return articulosDTO;
     }
 
-    public List<ArticulosDTO> obtenerArticulosPropietario(ArticulosDTO idPropietario){
+    public List<ArticulosDTO> obtenerArticulosPropietario(int idPropietario){
 //        String sql = "SELECT * FROM articulos WHERE id_propietario = ?";
 //        Object[] params = {idPropietario};
 //        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
@@ -144,7 +143,7 @@ public class ArticulosDao {
         try {
             String jpql = "SELECT a FROM ArticulosDTO a WHERE a.idPropietario = :idPropietario";
             articulosDTO = em.createQuery(jpql, ArticulosDTO.class)
-                    .setParameter("idPropietario", idPropietario.getIdPropietario())
+                    .setParameter("idPropietario", idPropietario)
                     .getResultList();
         } catch (Exception e) {
             System.out.println("ERROR: " + e);
@@ -152,33 +151,35 @@ public class ArticulosDao {
         }
         return articulosDTO;
     }
-    }
 
-    private List<Articulo> procesarResultado(Object[][] resultado){
-        List<Articulo> articulos = null;
-        if (resultado != null) {
-            articulos = new ArrayList<>();
-            for (Object[] fila : resultado) {
-                Articulo articulo = new Articulo();
-                articulo.setId((Integer) fila[0]);
-                articulo.setNombre((String) fila[1]);
-                articulo.setValor((Integer) fila[2]);
-                articulo.setIdPropietario((Integer) fila[3]);
-                articulos.add(articulo);
-            }
-        } else {
-            System.out.println("El resultado es nulo.");
-        }
-        return articulos;
-    }
 
-    public Articulo obtenerUltimoArticulo(){
-        String sql = "SELECT * FROM articulos ORDER BY id DESC LIMIT 1";
-        Object[] params = null;
-        Object[][] resultado = DatabaseManager.ejecutarSelectSQL(sql, params);
-        List<Articulo> articulos = procesarResultado(resultado);
+//    private List<Articulo> procesarResultado(Object[][] resultado){
+//        List<Articulo> articulos = null;
+//        if (resultado != null) {
+//            articulos = new ArrayList<>();
+//            for (Object[] fila : resultado) {
+//                Articulo articulo = new Articulo();
+//                articulo.setId((Integer) fila[0]);
+//                articulo.setNombre((String) fila[1]);
+//                articulo.setValor((Integer) fila[2]);
+//                articulo.setIdPropietario((Integer) fila[3]);
+//                articulos.add(articulo);
+//            }
+//        } else {
+//            System.out.println("El resultado es nulo.");
+//        }
+//        return articulos;
+//    }
+
+    public ArticulosDTO obtenerUltimoArticulo(){
+        EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT u FROM ArticulosDTO u";
+        List<ArticulosDTO> articulos = em.createQuery(jpql,ArticulosDTO.class).getResultList();
+        em.close();
+//        return articulosDTOS;
+
         if(articulos!=null && articulos.size()>0){
-            return articulos.get(0);
+            return articulos.get(articulos.size()-1);
         }
         return null;
     }
