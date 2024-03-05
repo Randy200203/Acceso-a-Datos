@@ -14,8 +14,8 @@ public class ProductoDAO {
 
     public ProductoDAO(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
-        this.database = mongoClient.getDatabase("prueba2");
-        this.collection = database.getCollection("propuctos");
+        this.database = mongoClient.getDatabase("acda");
+        this.collection = database.getCollection("productos");
     }
 
     public void agregarProducto(Producto producto) {

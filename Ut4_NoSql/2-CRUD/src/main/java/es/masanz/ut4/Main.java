@@ -14,11 +14,11 @@ public class Main {
             ProductoDAO productoDAO = new ProductoDAO(mongoClient);
             Producto nuevoProducto = new Producto(null, "Producto de prueba", 20);
             productoDAO.agregarProducto(nuevoProducto);
-            ObjectId nuevoProductoId = nuevoProducto.getId();
-            Producto productoObtenido = productoDAO.obtenerProducto(nuevoProductoId);
-            productoObtenido.setNombre("Producto actualizado");
-            productoDAO.actualizarProducto(productoObtenido);
-            productoDAO.eliminarProducto(nuevoProductoId);
+//            ObjectId nuevoProductoId = nuevoProducto.getId();
+//            Producto productoObtenido = productoDAO.obtenerProducto(nuevoProductoId);
+//            productoObtenido.setNombre("Producto actualizado");
+//            productoDAO.actualizarProducto(productoObtenido);
+//            productoDAO.eliminarProducto(nuevoProductoId);
         }
     }
 
