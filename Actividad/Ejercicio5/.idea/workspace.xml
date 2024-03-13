@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0accfa5d-9e87-4172-ba39-3f27e7b8b221" name="Changes" comment="" />
+    <list default="true" id="0accfa5d-9e87-4172-ba39-3f27e7b8b221" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../ProyectoHiber_Mongo/ActividadHiber_Mongo/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../ProyectoHiber_Mongo/ActividadHiber_Mongo/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../ProyectoHiber_Mongo/ActividadHiber_Mongo/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../ProyectoHiber_Mongo/ActividadHiber_Mongo/.idea/vcs.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,21 +26,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/alumTA/source/Acceso-a-Datos/Ut4_NoSql/1-QuickStart",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/alumTA/source/Acceso-a-Datos/Ut4_NoSql/1-QuickStart&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Ejercicio5" />
@@ -70,6 +75,7 @@
       <workItem from="1708968406053" duration="14000" />
       <workItem from="1709306272718" duration="639000" />
       <workItem from="1709667003360" duration="20000" />
+      <workItem from="1710354589219" duration="19000" />
     </task>
     <servers />
   </component>
