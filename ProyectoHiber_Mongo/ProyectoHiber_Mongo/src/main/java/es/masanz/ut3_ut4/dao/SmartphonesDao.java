@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class SmartphonesDao {
     private EntityManagerFactory emf;
@@ -80,6 +81,25 @@ public class SmartphonesDao {
                 em.getTransaction().rollback();
             }
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public SmartphonesDTO obtenerSmartphonePorId(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(SmartphonesDTO.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+
+    public List<SmartphonesDTO> getAllSmartphones() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT s FROM SmartphonesDTO s", SmartphonesDTO.class).getResultList();
         } finally {
             em.close();
         }

@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db04d2fe-fca0-4167-8b33-321cb194f49f" name="Changes" comment="" />
+    <list default="true" id="db04d2fe-fca0-4167-8b33-321cb194f49f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d96d2733-a6b6-4bc6-82ea-99bdaa939a8c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d96d2733-a6b6-4bc6-82ea-99bdaa939a8c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/CochesDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/CochesDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/RopasDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/RopasDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/SmartphonesDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/SmartphonesDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/ZapatosDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/ZapatosDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/mongo/MongoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/mongo/MongoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../actividad_Hiber_Mongo.sql" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,27 +38,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;JPA.DatabaseSchemaImportDialog&quot;: &quot;d96d2733-a6b6-4bc6-82ea-99bdaa939a8c&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "JPA.DatabaseSchemaImportDialog": "d96d2733-a6b6-4bc6-82ea-99bdaa939a8c",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/randy/OneDrive/Escritorio/intentoHiberMongo/intentoProyectoACDA",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="ImportMappingsDialog.RecentPackages">
       <recent name="es.masanz.ut3_ut4.dto" />
@@ -71,6 +82,7 @@
       <updated>1710354834039</updated>
       <workItem from="1710354835056" duration="5037000" />
       <workItem from="1710441116825" duration="3819000" />
+      <workItem from="1710455422999" duration="4805000" />
     </task>
     <servers />
   </component>

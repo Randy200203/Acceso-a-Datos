@@ -1,5 +1,7 @@
 package es.masanz.ut3_ut4;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import es.masanz.ut3_ut4.dao.CochesDao;
 import es.masanz.ut3_ut4.dao.RopasDao;
 import es.masanz.ut3_ut4.dao.SmartphonesDao;
@@ -8,10 +10,13 @@ import es.masanz.ut3_ut4.dto.CochesDTO;
 import es.masanz.ut3_ut4.dto.RopasDTO;
 import es.masanz.ut3_ut4.dto.SmartphonesDTO;
 import es.masanz.ut3_ut4.dto.ZapatosDTO;
+import es.masanz.ut3_ut4.mongo.MongoDao;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.bson.Document;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Random;
 
 public class Main {
@@ -30,6 +35,23 @@ public class Main {
         eliminarProductos(cochesDao, ropasDao, smartphonesDao, zapatosDao, random);
 
         emf.close();
+
+        String uri = "mongodb://localhost:27017";
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDao mongoDAO = new MongoDao(mongoClient);
+            obtenerDatosYEnviarAMongo(mongoDAO, emf); // Se pasa emf como parámetro
+            mongoDAO.buscarPorMarca("Marca 1");
+
+            //Para encontrar los datos fácilmente en la terminal buscar con CTRL+F la siguiente línea
+            System.out.println("Datos de la consulta");
+            List<Document> resultados = mongoDAO.buscarPorNombreYPrecio("Accesorio 1", 25.99);
+            for (Document resultado : resultados) {
+                System.out.println("");
+                System.out.println(resultado);
+                System.out.println("");
+            }
+
+        }
     }
 
     private static void generarProductos(CochesDao cochesDao, RopasDao ropasDao, SmartphonesDao smartphonesDao, ZapatosDao zapatosDao, Random random) {
@@ -145,4 +167,22 @@ public class Main {
         }
     }
 
+    public static void obtenerDatosYEnviarAMongo(MongoDao mongoDAO, EntityManagerFactory emf) {
+        CochesDao cochesDao = new CochesDao(emf);
+        RopasDao ropasDao = new RopasDao(emf);
+        SmartphonesDao smartphonesDao = new SmartphonesDao(emf);
+        ZapatosDao zapatosDao = new ZapatosDao(emf);
+
+        List<CochesDTO> cochesList = cochesDao.getAllCoches();
+        mongoDAO.agregarCoche(cochesList);
+
+        List<RopasDTO> ropasList = ropasDao.getAllRopas();
+        mongoDAO.agregarRopas(ropasList);
+
+        List<SmartphonesDTO> smartphonesList = smartphonesDao.getAllSmartphones();
+        mongoDAO.agregarSmartphone(smartphonesList);
+
+        List<ZapatosDTO> zapatosList = zapatosDao.getAllZapatos();
+        mongoDAO.agregarZapato(zapatosList);
+    }
 }

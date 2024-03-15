@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class RopasDao {
     private EntityManagerFactory emf;
@@ -79,6 +80,25 @@ public class RopasDao {
                 em.getTransaction().rollback();
             }
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public RopasDTO obtenerRopaPorId(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(RopasDTO.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+
+    public List<RopasDTO> getAllRopas() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT r FROM RopasDTO r", RopasDTO.class).getResultList();
         } finally {
             em.close();
         }
