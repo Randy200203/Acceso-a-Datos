@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db04d2fe-fca0-4167-8b33-321cb194f49f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d96d2733-a6b6-4bc6-82ea-99bdaa939a8c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d96d2733-a6b6-4bc6-82ea-99bdaa939a8c.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/CochesDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/CochesDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/RopasDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/RopasDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/SmartphonesDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/SmartphonesDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/ZapatosDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/dao/ZapatosDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/mongo/MongoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/masanz/ut3_ut4/mongo/MongoDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../actividad_Hiber_Mongo.sql" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +74,7 @@
       <updated>1710354834039</updated>
       <workItem from="1710354835056" duration="5037000" />
       <workItem from="1710441116825" duration="3819000" />
-      <workItem from="1710455422999" duration="4805000" />
+      <workItem from="1710455422999" duration="5194000" />
     </task>
     <servers />
   </component>

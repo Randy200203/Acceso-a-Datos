@@ -39,7 +39,7 @@ public class Main {
         String uri = "mongodb://localhost:27017";
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDao mongoDAO = new MongoDao(mongoClient);
-            obtenerDatosYEnviarAMongo(mongoDAO, emf); // Se pasa emf como parámetro
+            obtenerDatos_EnviarAMongo(mongoDAO, emf); 
             mongoDAO.buscarPorMarca("Marca 1");
 
             //Para encontrar los datos fácilmente en la terminal buscar con CTRL+F la siguiente línea
@@ -167,7 +167,7 @@ public class Main {
         }
     }
 
-    public static void obtenerDatosYEnviarAMongo(MongoDao mongoDAO, EntityManagerFactory emf) {
+    public static void obtenerDatos_EnviarAMongo(MongoDao mongoDAO, EntityManagerFactory emf) {
         CochesDao cochesDao = new CochesDao(emf);
         RopasDao ropasDao = new RopasDao(emf);
         SmartphonesDao smartphonesDao = new SmartphonesDao(emf);
